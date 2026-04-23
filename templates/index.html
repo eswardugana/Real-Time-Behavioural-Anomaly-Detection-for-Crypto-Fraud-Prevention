@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blockchain Fraud Detection</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    background: #0f172a;
+    color: #e2e8f0;
+}
+
+/* HEADER */
+.header {
+    text-align: center;
+    padding: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #38bdf8;
+    text-shadow: 0 0 10px #38bdf8;
+}
+
+/* GRID LAYOUT */
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* CARD STYLE */
+.card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+/* INPUTS */
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    background: #0f172a;
+    border: 1px solid #334155;
+    color: white;
+    border-radius: 6px;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #38bdf8;
+    border: none;
+    color: black;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0ea5e9;
+}
+
+/* RESULT */
+.result {
+    text-align: center;
+    font-size: 22px;
+    margin-top: 15px;
+}
+
+/* LIVE FEED */
+.live-feed {
+    height: 300px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+/* SAFE */
+.safe {
+    color: #22c55e;
+    text-shadow: 0 0 5px #22c55e;
+}
+
+/* FRAUD */
+.fraud {
+    color: #ef4444;
+    text-shadow: 0 0 8px #ef4444;
+}
+
+/* BLINK */
+@keyframes blink {
+    50% { opacity: 0.2; }
+}
+
+.blink {
+    animation: blink 1s infinite;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">🔗 Real-Time Blockchain Fraud Detection</div>
+
+<div class="container">
+
+<!-- LEFT: INPUT -->
+<div class="card">
+    <h3>Manual Transaction Check</h3>
+
+    <form action="/predict" method="post">
+        <input name="sent" placeholder="Sent Transactions" required>
+        <input name="received" placeholder="Received Transactions" required>
+        <input name="ether_sent" placeholder="Ether Sent" required>
+        <input name="ether_received" placeholder="Ether Received" required>
+        <input name="balance" placeholder="Balance" required>
+
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if prediction_text %}
+    <div class="result 
+        {% if 'Fraud' in prediction_text %}fraud blink{% else %}safe{% endif %}">
+        {{ prediction_text }}
+    </div>
+    {% endif %}
+</div>
+
+<!-- RIGHT: LIVE SIMULATION -->
+<div class="card">
+    <h3>📡 Live Blockchain Transactions</h3>
+
+    <div id="live-feed" class="live-feed"></div>
+</div>
+
+</div>
+
+<script>
+setInterval(() => {
+    fetch('/auto_predict')
+    .then(res => res.json())
+    .then(data => {
+
+        let feed = document.getElementById("live-feed");
+
+        let statusClass = data.result.includes("Fraud") ? "fraud blink" : "safe";
+
+        let entry = `
+            <div class="${statusClass}">
+                ➤ Sent: ${data.sent} | Recv: ${data.received} |
+                ETH Sent: ${data.ether_sent} | ETH Recv: ${data.ether_received} |
+                Bal: ${data.balance}
+                <br>➡ ${data.result}
+                <hr>
+            </div>
+        `;
+
+        feed.innerHTML = entry + feed.innerHTML;
+
+        // limit entries
+        if (feed.children.length > 20) {
+            feed.removeChild(feed.lastChild);
+        }
+
+    });
+}, 2000);
+</script>
+
+</body>
+</html>
