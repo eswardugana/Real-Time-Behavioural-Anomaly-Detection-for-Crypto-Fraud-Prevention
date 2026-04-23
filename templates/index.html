@@ -13,7 +13,7 @@ body {
     color: #e2e8f0;
 }
 
-/* HEADER */
+
 .header {
     text-align: center;
     padding: 20px;
@@ -23,7 +23,7 @@ body {
     text-shadow: 0 0 10px #38bdf8;
 }
 
-/* GRID LAYOUT */
+
 .container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -31,7 +31,7 @@ body {
     padding: 20px;
 }
 
-/* CARD STYLE */
+
 .card {
     background: #1e293b;
     padding: 20px;
@@ -39,7 +39,7 @@ body {
     box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
 
-/* INPUTS */
+
 input {
     width: 100%;
     padding: 10px;
@@ -50,7 +50,7 @@ input {
     border-radius: 6px;
 }
 
-/* BUTTON */
+
 button {
     width: 100%;
     padding: 12px;
@@ -66,33 +66,32 @@ button:hover {
     background: #0ea5e9;
 }
 
-/* RESULT */
+
 .result {
     text-align: center;
     font-size: 22px;
     margin-top: 15px;
 }
 
-/* LIVE FEED */
+
 .live-feed {
     height: 300px;
     overflow-y: auto;
     font-size: 14px;
 }
 
-/* SAFE */
 .safe {
     color: #22c55e;
     text-shadow: 0 0 5px #22c55e;
 }
 
-/* FRAUD */
+
 .fraud {
     color: #ef4444;
     text-shadow: 0 0 8px #ef4444;
 }
 
-/* BLINK */
+
 @keyframes blink {
     50% { opacity: 0.2; }
 }
@@ -109,7 +108,7 @@ button:hover {
 
 <div class="container">
 
-<!-- LEFT: INPUT -->
+
 <div class="card">
     <h3>Manual Transaction Check</h3>
 
@@ -131,7 +130,7 @@ button:hover {
     {% endif %}
 </div>
 
-<!-- RIGHT: LIVE SIMULATION -->
+
 <div class="card">
     <h3>📡 Live Blockchain Transactions</h3>
 
@@ -162,7 +161,7 @@ setInterval(() => {
 
         feed.innerHTML = entry + feed.innerHTML;
 
-        // limit entries
+      
         if (feed.children.length > 20) {
             feed.removeChild(feed.lastChild);
         }
